@@ -1,6 +1,6 @@
 import numpy as np
 from keras.models import Model
-from keras.layers import Embedding, Dense, Dropout, LSTM, Flatten
+from keras.layers import Embedding, Dense, Dropout, LSTM
 from keras.layers import Input, Concatenate, Dot
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.preprocessing import sequence
@@ -75,8 +75,8 @@ def contrastive_loss(y_true, y_pred):
     return K.mean((1-y_true) * 0.5 * K.square(y_pred) + 
                   0.5 * y_true * K.square(K.maximum(margin - y_pred, 0)))
 
+# Train LSTM-Dot model
 rate = 0
-#lstmModel = lstm_dnn(maxlen_q, maxlen_o, weights, rate)
 lstmModel = lstm_dot(maxlen_q, maxlen_o, weights, rate)
 lstmModel.compile(loss=contrastive_loss, optimizer='adam')
 lstmModel.summary()
@@ -95,6 +95,7 @@ hist = lstmModel.fit([quests, opts], ans,
                  batch_size = batch_size, epochs = epochs, 
                  validation_split = 0.1, callbacks=callbacks)
 
+# Train LSTM-DNN model
 lstmModel = lstm_dnn(maxlen_q, maxlen_o, weights, rate)
 lstmModel.compile(loss=contrastive_loss, optimizer='adam')
 lstmModel.summary()
