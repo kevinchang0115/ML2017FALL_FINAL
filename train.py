@@ -1,11 +1,13 @@
+import sys
+import os
+import json
 import numpy as np
+from keras import backend as K
 from keras.models import Model
 from keras.layers import Embedding, Dense, Dropout, LSTM
 from keras.layers import Input, Concatenate, Dot
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.preprocessing import sequence
-import json
-from keras import backend as K
 
 def word2idx(x_data, dic):
     x_data_idx = []
@@ -86,8 +88,9 @@ quests, opts, ans = shuffle(quests, opts, ans)
 batch_size = 16383
 epochs = 100
 
+model_name = sys.argv[1]
 earlystop = EarlyStopping(monitor='val_loss', patience=4)
-checkpoint = ModelCheckpoint("model/lstm_dot.h5", 
+checkpoint = ModelCheckpoint(os.path.join('model', model_name+'_dot.h5', 
                              monitor='val_loss', save_best_only=True)
 callbacks=[earlystop, checkpoint]
 
@@ -106,7 +109,7 @@ batch_size = 16383
 epochs = 100
 
 earlystop = EarlyStopping(monitor='val_loss', patience=4)
-checkpoint = ModelCheckpoint("model/lstm_dnn.h5", 
+checkpoint = ModelCheckpoint(os.path.join('model', model_name+'_dnn.h5', 
                              monitor='val_loss', save_best_only=True)
 callbacks=[earlystop, checkpoint]
 
