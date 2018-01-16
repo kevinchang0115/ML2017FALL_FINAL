@@ -53,7 +53,7 @@ score = score.reshape((len(score)//6,6))
 output_dir = 'result'
 if not os.path.exists(output_dir):
     os.mkdir(output_dir)
-file_name = 'ans_'+ model_name.split('/')[-1].split('.')[-2] + '.csv'
+file_name = 'ans_'+ model_name + '_dnn.csv'
 output_path = os.path.join(output_dir, file_name)
 with open(output_path, 'w') as f:
     f.write('id,ans\n')
@@ -70,7 +70,7 @@ model.summary()
 score = model.predict([quests, opts])
 score = score.reshape((len(score)//6,6))
 
-file_name = 'ans_'+ model_name.split('/')[-1].split('.')[-2] + '.csv'
+file_name = 'ans_'+ model_name + '_dot.csv'
 output_path = os.path.join(output_dir, file_name)
 with open(output_path, 'w') as f:
     f.write('id,ans\n')
