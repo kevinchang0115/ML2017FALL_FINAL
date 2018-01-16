@@ -120,8 +120,7 @@ dic = dict([(k, v.index+1) for k, v in model.wv.vocab.items()])
 
 if not os.path.exists('model'):
     os.mkdir('model')
-model.save("model/final_tradition.w2v")
-model.wv.save_word2vec_format("model/word2vecFormat_tradition", binary=False)
+model.save("model/word2vec.w2v")
 np.save("model/weights.npy", weights)
 with open("model/dict", 'w') as f:
     f.write(json.dumps(dic))
@@ -137,13 +136,3 @@ with open("data/testing_quests", 'w') as f:
     f.write(json.dumps(quests))
 with open("data/testing_opts", 'w') as f:
     f.write(json.dumps(opts))
-
-s = np.zeros(len(quests))
-for i in range(len(quests)):
-    s[i] = len(quests[i])
-print('testing question length: %f' % (np.mean(s) + np.std(s)))
-
-s = np.zeros(len(opts))
-for i in range(len(opts)):
-    s[i] = len(opts[i])
-print('testing option length: %f' % (np.mean(s) + np.std(s)))

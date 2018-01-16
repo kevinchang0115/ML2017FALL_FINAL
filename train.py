@@ -1,4 +1,3 @@
-import sys
 import os
 import json
 import numpy as np
@@ -77,42 +76,39 @@ def contrastive_loss(y_true, y_pred):
     return K.mean((1-y_true) * 0.5 * K.square(y_pred) + 
                   0.5 * y_true * K.square(K.maximum(margin - y_pred, 0)))
 
-# Train LSTM-Dot model
 rate = 0
-lstmModel = lstm_dot(maxlen_q, maxlen_o, weights, rate)
-lstmModel.compile(loss=contrastive_loss, optimizer='adam')
-lstmModel.summary()
+lstmModel_dot = lstm_dot(maxlen_q, maxlen_o, weights, rate)
+lstmModel_dot.compile(loss=contrastive_loss, optimizer='adam')
+lstmModel_dot.summary()
+
+lstmModel_dnn = lstm_dnn(maxlen_q, maxlen_o, weights, rate)
+lstmModel_dnn.compile(loss=contrastive_loss, optimizer='adam')
+lstmModel_dnn.summary()
 
 quests, opts, ans = shuffle(quests, opts, ans)
 
-batch_size = 16383
+# Train LSTM-Dot model
+batch_size = 16384
 epochs = 100
 
-model_name = sys.argv[1]
 earlystop = EarlyStopping(monitor='val_loss', patience=4)
-checkpoint = ModelCheckpoint(os.path.join('model', model_name+'_dot.h5', 
+checkpoint = ModelCheckpoint("model/final_dot.h5",
                              monitor='val_loss', save_best_only=True)
 callbacks=[earlystop, checkpoint]
 
-hist = lstmModel.fit([quests, opts], ans, 
+hist = lstmModel_dot.fit([quests, opts], ans, 
                  batch_size = batch_size, epochs = epochs, 
                  validation_split = 0.1, callbacks=callbacks)
 
 # Train LSTM-DNN model
-lstmModel = lstm_dnn(maxlen_q, maxlen_o, weights, rate)
-lstmModel.compile(loss=contrastive_loss, optimizer='adam')
-lstmModel.summary()
-
-quests, opts, ans = shuffle(quests, opts, ans)
-
-batch_size = 16383
+batch_size = 16384
 epochs = 100
 
 earlystop = EarlyStopping(monitor='val_loss', patience=4)
-checkpoint = ModelCheckpoint(os.path.join('model', model_name+'_dnn.h5', 
+checkpoint = ModelCheckpoint("model/final_dnn.h5",
                              monitor='val_loss', save_best_only=True)
 callbacks=[earlystop, checkpoint]
 
-hist = lstmModel.fit([quests, opts], ans, 
+hist = lstmModel_dnn.fit([quests, opts], ans, 
                  batch_size = batch_size, epochs = epochs, 
-                 validation_split = 0.11, callbacks=callbacks)
+                 validation_split = 0.1, callbacks=callbacks)

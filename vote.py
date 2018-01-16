@@ -18,8 +18,8 @@ def vote(ans):
                     return a
 
 file1 = os.path.join('result', sys.argv[1])
-file1 = os.path.join('result', sys.argv[2])
-file1 = os.path.join('result', sys.argv[3])
+file2 = os.path.join('result', sys.argv[2])
+file3 = os.path.join('result', sys.argv[3])
 file_list = [file1, file2, file3]
 ans = np.zeros((5060, len(file_list)))
 for i, file in enumerate(file_list):

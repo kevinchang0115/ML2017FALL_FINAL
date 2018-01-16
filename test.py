@@ -41,9 +41,8 @@ maxlen_o = 10
 quests = sequence.pad_sequences(quests, maxlen=maxlen_q)
 opts = sequence.pad_sequences(opts, maxlen=maxlen_o)
 
-# predict with LSTM-DNN model
 model_name = sys.argv[1]
-model_path = os.path.join('model', model_name+'_dnn.h5')
+model_path = os.path.join('model', model_name)
 model = load_model(model_path)
 model.summary()
 
@@ -53,24 +52,7 @@ score = score.reshape((len(score)//6,6))
 output_dir = 'result'
 if not os.path.exists(output_dir):
     os.mkdir(output_dir)
-file_name = 'ans_'+ model_name + '_dnn.csv'
-output_path = os.path.join(output_dir, file_name)
-with open(output_path, 'w') as f:
-    f.write('id,ans\n')
-    for i in range(len(score)):
-        highest = max(score[i])
-        ans = np.where(score[i] == highest)[0][0]            
-        f.write('%d,%d\n' %(i+1, ans))
-
-# predict with LSTM-Dot model
-model_path = os.path.join('model', model_name+'_dot.h5')
-model = load_model(model_path)
-model.summary()
-
-score = model.predict([quests, opts])
-score = score.reshape((len(score)//6,6))
-
-file_name = 'ans_'+ model_name + '_dot.csv'
+file_name = 'ans_'+ model_name.split('.')[-2] + '.csv'
 output_path = os.path.join(output_dir, file_name)
 with open(output_path, 'w') as f:
     f.write('id,ans\n')
