@@ -1,6 +1,7 @@
-import pandas as pd
-import numpy as np
 import os
+import sys
+import numpy as np
+import pandas as pd
 
 def vote(ans):
     ans = ans.astype(int)
@@ -16,10 +17,10 @@ def vote(ans):
                 if a == m:
                     return a
 
-file_list = ["result/ans_tradition_t110.csv",
-             "result/ans123_lstm_dnn_3.csv",
-             "result/ans123_lstm_dot_3.csv"]
-
+file1 = os.path.join('result', sys.argv[1])
+file1 = os.path.join('result', sys.argv[2])
+file1 = os.path.join('result', sys.argv[3])
+file_list = [file1, file2, file3]
 ans = np.zeros((5060, len(file_list)))
 for i, file in enumerate(file_list):
     ans[:,i] = pd.read_csv(file)['ans']
