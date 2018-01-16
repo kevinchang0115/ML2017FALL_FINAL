@@ -131,16 +131,6 @@ with open("data/training_opts", 'w') as f:
     f.write(json.dumps(opts))
 np.save("data/ans.npy", ans)
 
-s = np.zeros(len(quests))
-for i in range(len(quests)):
-    s[i] = len(quests[i])
-print('training question length: %f' % (np.mean(s) + np.std(s)))
-
-s = np.zeros(len(opts))
-for i in range(len(opts)):
-    s[i] = len(opts[i])
-print('training option length: %f' % (np.mean(s) + np.std(s)))
-
 test_data = "data/testing_data.csv"
 quests, opts = make_test_data(test_data)
 with open("data/testing_quests", 'w') as f:
