@@ -1,9 +1,10 @@
 import os
+import sys
+import json
 import numpy as np
+from keras import backend as K
 from keras.models import load_model
 from keras.preprocessing import sequence
-import json
-from keras import backend as K
 from keras.utils.generic_utils import get_custom_objects
 
 def contrastive_loss(y_true, y_pred):
@@ -41,8 +42,9 @@ quests = sequence.pad_sequences(quests, maxlen=maxlen_q)
 opts = sequence.pad_sequences(opts, maxlen=maxlen_o)
 
 # predict with LSTM-DNN model
-model_name = "model/lstm_dnn_best.h5"
-model = load_model(model_name)
+model_name = sys.argv[1]
+model_path = os.path.join('model', model_name+'_dnn.h5')
+model = load_model(model_path)
 model.summary()
 
 score = model.predict([quests, opts])
@@ -61,8 +63,8 @@ with open(output_path, 'w') as f:
         f.write('%d,%d\n' %(i+1, ans))
 
 # predict with LSTM-Dot model
-model_name = "model/lstm_dot_best.h5"
-model = load_model(model_name)
+model_path = os.path.join('model', model_name+'_dot.h5')
+model = load_model(model_path)
 model.summary()
 
 score = model.predict([quests, opts])
