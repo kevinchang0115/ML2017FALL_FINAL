@@ -1,6 +1,5 @@
-1. Use uploaded model
-run: bash final.sh
+[Use uploaded model]
+run: bash final.sh (It will create a "result" folder and save the prediction as "vote.csv" in the folder.)
 
-2. Use new training model
-run: bash final_train.sh
+
 
