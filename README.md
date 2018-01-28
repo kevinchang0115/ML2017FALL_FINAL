@@ -20,21 +20,22 @@ tensorflow 1.2.1
 keras 2.0.8
 
 ## Run
+### Using uploaded model (in /model dir)
 ```
-cd src
+bash final.sh $1
 ```
-In /src folder, run:
-```
-bash final.sh $1 $2
-```
-$1: file path of testing data
+$1: file name of predicted results (saved in /result)
 
-$2: file name of final predicted results (saved in /result)
+(/result will be created, and all predicted files including the voted one will be saved in this folder.)
 
-(/result will be created, and all predicted files including the final one will be saved in this folder.)
+### Using new training model
+'''
+bash final_train.sh $1
+'''
+$1: file name of predicted results (saved in /result)
 
 ### Example
 ```
-bash final.sh data/testing_data.csv pred.csv
+bash final.sh pred.csv
 ```
 ,and find output file in /src/result/pred.csv
