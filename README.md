@@ -20,22 +20,23 @@ tensorflow 1.2.1
 keras 2.0.8
 
 ## Run
-### Using uploaded model (in /model dir)
+### Using uploaded models
+run:
 ```
-bash final.sh $1
+bash final.sh
 ```
-$1: file name of predicted results (saved in /result)
+/result folder will be created, and four predicted files will be saved in this folder.
+The 4 predicted files are "ans_sim.csv" (similarity model), "ans_dnn.csv" (lstm & dnn model, saved in /model), "ans_dot.csv" (lstm & dot model, saved in /model), "vote.csv" (voted results of above 3 models).
 
-(/result will be created, and all predicted files including the voted one will be saved in this folder.)
-
-### Using new training model
-'''
-bash final_train.sh $1
-'''
-$1: file name of predicted results (saved in /result)
+### Using new training models
+```
+bash final_train.sh
+```
+"train.py" will be executed, and new training models, "final_dnn.h5" and "final_dot.h5" will be saved in /model.
+The predicted files will be produced according to new training models instead of uploaded models.
 
 ### Example
 ```
-bash final.sh pred.csv
+bash final.sh
 ```
-,and find output file in /src/result/pred.csv
+,and find output file in /result/vote.csv
